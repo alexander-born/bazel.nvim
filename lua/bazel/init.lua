@@ -58,7 +58,6 @@ local function call_with_bazel_targets(callback)
 	end
 	local fname_rel = fname:match(workspace .. "/(.*)")
 	local function query_targets(bazel_info)
-		vim.pretty_print(bazel_info.stdout)
 		local file_label = bazel_info.stdout[1]
 		local file_package = file_label:match("(.*):")
 		local function query_cmd(attr)
