@@ -49,27 +49,6 @@ local function get_executable(target, workspace)
 	return workspace .. "/" .. executable:gsub("//", "bazel-bin/")
 end
 
-local function query(args, workspace, callback)
-	local query_cmd = "timeout 10 bazel query " .. args .. " --color no --curses no --noshow_progress"
-	local out = {}
-	local function collect_stdout(_, stdout)
-		for _, line in pairs(stdout) do
-			if line ~= "" then
-				table.insert(out, line)
-			end
-		end
-	end
-
-	local function on_exit(_, success)
-		if success == 0 then
-			callback(out)
-		else
-			print("No results for: " .. query_cmd)
-		end
-	end
-	vim.fn.jobstart(query_cmd, { cwd = workspace, on_stdout = collect_stdout, on_exit = on_exit })
-end
-
 local function call_with_bazel_targets(callback)
 	local fname = vim.fn.expand("%:p")
 	local workspace = M.get_workspace(fname)
