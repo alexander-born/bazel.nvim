@@ -65,12 +65,13 @@ local function call_with_bazel_targets(callback)
 			return "attr(" .. attr .. "," .. file_label .. "," .. file_package .. ":*)"
 		end
 		M.query("'" .. query_cmd("srcs") .. " union " .. query_cmd("hdrs") .. "'", {
+			workspace = bazel_info.workspace,
 			on_success = function(bazel_info_)
 				callback(bazel_info_.stdout)
 			end,
 		})
 	end
-	M.query(fname_rel, { on_success = query_targets })
+	M.query(fname_rel, { on_success = query_targets, workspace = workspace })
 end
 
 function M.call_with_bazel_target(callback)
@@ -199,7 +200,7 @@ end
 
 -- opts: on_success function(bazel_info) -- bazel_info hast the following fields: workspace, workspace_name, optional(stdout, executable, runfiles)
 function M.execute(command, args, opts)
-	local workspace = M.get_workspace()
+	local workspace = opts.workspace or M.get_workspace()
 	create_window()
 	vim.fn.termopen(
 		"bazel " .. command .. " " .. args,
