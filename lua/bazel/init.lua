@@ -190,14 +190,14 @@ function M.run_last()
 	)
 end
 
--- opts: on_success function(bazel_info) -- bazel_info hast the following fields: workspace, workspace_name, executable, runfiles
+-- opts: on_success function(bazel_info) -- bazel_info has the following fields: workspace, workspace_name, executable, runfiles
 function M.run_here(command, args, opts)
 	M.call_with_bazel_target(function(target)
 		M.run(command, args, target, M.get_workspace(), opts)
 	end)
 end
 
--- opts: on_success function(bazel_info) -- bazel_info hast the following fields: workspace, workspace_name, optional(stdout, executable, runfiles)
+-- opts: on_success function(bazel_info) -- bazel_info has the following fields: workspace, workspace_name, optional(stdout, executable, runfiles)
 function M.execute(command, args, opts)
 	local workspace = opts.workspace or M.get_workspace()
 	create_window()
@@ -208,13 +208,13 @@ function M.execute(command, args, opts)
 	vim.fn.feedkeys("G")
 end
 
--- opts: on_success function(bazel_info) -- bazel_info hast the following fields: workspace, workspace_name, stdout
+-- opts: on_success function(bazel_info) -- bazel_info has the following fields: workspace, workspace_name, stdout
 function M.query(args, opts)
 	args = args .. " --color no --curses no --noshow_progress"
 	M.execute("query", args, opts)
 end
 
--- opts: on_success function(bazel_info) -- bazel_info hast the following fields: workspace, workspace_name, stdout
+-- opts: on_success function(bazel_info) -- bazel_info has the following fields: workspace, workspace_name, stdout
 function M.cquery(args, opts)
 	args = args .. " --color no --curses no --noshow_progress"
 	M.execute("cquery", args, opts)
