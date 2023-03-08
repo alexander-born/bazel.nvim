@@ -36,13 +36,13 @@ local function get_test_info()
 	}
 end
 
-function M.get_test_filter()
+function M.get_test_filter_args()
 	local test_info = get_test_info()
 	local filter = test_info.name
 	if test_info.namespace then
 		filter = test_info.namespace .. " and " .. test_info.name
 	end
-	return '-k="' .. filter .. '"'
+	return { "-k", filter }
 end
 
 return M
