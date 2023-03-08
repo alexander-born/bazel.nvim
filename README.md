@@ -42,6 +42,6 @@ bazel.is_bazel_workspace(path)
 bazel.is_bazel_cache(path)
 bazel.get_workspace_from_cache(path)
 
-local bazel_gtest = require("bazel.gtest")
-bazel_gtest.get_gtest_filter()
+require("bazel.gtest").get_gtest_filter_args()
+require("bazel.pytest").get_test_filter_args()
 ```

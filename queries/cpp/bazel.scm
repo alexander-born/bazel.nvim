@@ -1,6 +1,7 @@
+;; "TEST", "TEST_F", "TEST_P", "TYPED_TEST_P", "TYPED_TEST" }
 (function_definition
   (function_declarator
-    (identifier) @test_type
+    (identifier) @test.type(#match? @test.type "TEST")
     (parameter_list
-      (parameter_declaration) @test_suite
-      (parameter_declaration) @test_name))) @gtest
+      (parameter_declaration) @test.suite
+      (parameter_declaration) @test.name))) @test.definition
