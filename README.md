@@ -19,13 +19,10 @@ See configuration with lazyvim [here](https://github.com/alexander-born/nvim/blo
 ### vim functions:
 ```viml
 GoToBazelDefinition()        " Jump to definition
-BazelGetCurrentBufTarget()   " Get the bazel target of current buffer
 GoToBazelTarget()            " Jumps to the BUILD file of current target
-RunBazelHere(command)        " Runs the current bazel target with given command
-RunBazel()                   " Repeats the last bazel run
 GetLabel()                   " Returns bazel label of target in build file
 ```
-These can be called from lua via `vim.fn.GoToBazelDefinition()`.
+These can be called from lua via `vim.fn.GoToBazelDefinition()` or from the command line via `:call GoToBazelDefinition()`.
 
 ### lua functions:
 ```lua
