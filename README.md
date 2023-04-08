@@ -14,7 +14,8 @@ Use your favorite package manager. Example lazy.nvim:
 ```
 
 ### Configuration
-See configuration with lazyvim [here](https://github.com/alexander-born/nvim/blob/master/lua/config/bazel.lua) and [here](https://github.com/alexander-born/nvim/blob/master/lua/plugins/bazel.lua)
+See configuration with lazyvim [here](https://github.com/alexander-born/nvim/blob/master/lua/plugins/bazel.lua) and advanced configuration [here](https://github.com/alexander-born/nvim/blob/master/lua/config/bazel.lua).
+See keymaps example [here](https://github.com/alexander-born/nvim/blob/e23a01c9b531b2bf2bef4cb18e1bc2756d01c518/lua/config/keymaps.lua#L30-L43).
 
 ### vim functions:
 ```viml
