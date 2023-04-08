@@ -22,7 +22,7 @@ To override the default executable of "bazel" to for example "blaze" use `vim.g.
 ### vim functions:
 ```viml
 GoToBazelDefinition()        " Jump to definition
-GoToBazelTarget()            " Jumps to the BUILD file of current target
+GoToBazelTarget()            " Jumps to the BUILD file of current buffer
 GetLabel()                   " Returns bazel label of target in build file
 ```
 These can be called from lua via `vim.fn.GoToBazelDefinition()` or from the command line via `:call GoToBazelDefinition()`.
