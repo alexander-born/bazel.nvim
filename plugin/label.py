@@ -149,6 +149,8 @@ def _resolve_filename(fname, workspace_root, repository=""):
 
     target = os.path.relpath(fname, start=package_root)
     package = os.path.relpath(package_root, start=workspace_root)
+    if package == ".":
+        package = ""
     return Label(repository=repository, package=package, target=target)
 
 
