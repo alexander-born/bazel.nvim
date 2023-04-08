@@ -183,7 +183,7 @@ def find_node(root, row, col):
 
 def find_definition_at(fname, text, row, col, workspace_root=None):
     if workspace_root is None:
-        workspace_root = find_workspace_root(os.getcwd())
+        workspace_root = find_workspace_root(fname)
     module = parse_module_text(text)
     node = find_node(module, row, col)
     if isinstance(node, ast.Str):
@@ -197,7 +197,7 @@ def find_definition_at(fname, text, row, col, workspace_root=None):
 
 def get_target_label(fname, text, row, col, workspace_root=None):
     if workspace_root is None:
-        workspace_root = find_workspace_root(os.getcwd())
+        workspace_root = find_workspace_root(fname)
     module = parse_module_text(text)
     node = find_node(module, row, col)
     if isinstance(node, ast.Str):
@@ -216,5 +216,5 @@ def print_label(fname, text, row, col, workspace_root=None):
 
 def find_definition_in(fname, row, col, workspace_root=None):
     if workspace_root is None:
-        workspace_root = find_workspace_root(os.getcwd())
+        workspace_root = find_workspace_root(fname)
     find_definition_at(fname, open(fname).read(), row, col, workspace_root)
