@@ -166,15 +166,11 @@ local function get_options(command, workspace, opts, bazel_info)
 end
 
 function M.run(command, args, target, workspace, opts)
-	local bazel_info = get_bazel_info(workspace, { target = target })
+	opts = opts or {}
+	opts.target = target
+	opts.workspace = workspace
 	store_for_run_last(command, args, target, workspace, opts)
-	create_window()
-	local bazel_cmd = vim.g.bazel_cmd or "bazel"
-	vim.fn.termopen(
-		bazel_cmd .. " " .. command .. " " .. args .. " " .. target,
-		get_options(command, workspace, opts, bazel_info)
-	)
-	vim.fn.feedkeys("G")
+	M.execute(command, args .. " " .. target, opts)
 end
 
 function M.run_last()
@@ -200,12 +196,13 @@ end
 
 -- opts: on_success function(bazel_info) -- bazel_info has the following fields: workspace, workspace_name, optional(stdout, executable, runfiles)
 function M.execute(command, args, opts)
+	opts = opts or {}
 	local workspace = opts.workspace or M.get_workspace()
 	create_window()
 	local bazel_cmd = vim.g.bazel_cmd or "bazel"
 	vim.fn.termopen(
 		bazel_cmd .. " " .. command .. " " .. args,
-		get_options(command, workspace, opts, get_bazel_info(workspace, {}))
+		get_options(command, workspace, opts, get_bazel_info(workspace, { target = opts.target }))
 	)
 	vim.fn.feedkeys("G")
 end
