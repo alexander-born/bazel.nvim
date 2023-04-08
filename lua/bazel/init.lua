@@ -169,8 +169,9 @@ function M.run(command, args, target, workspace, opts)
 	local bazel_info = get_bazel_info(workspace, { target = target })
 	store_for_run_last(command, args, target, workspace, opts)
 	create_window()
+	local bazel_cmd = vim.g.bazel_cmd or "bazel"
 	vim.fn.termopen(
-		"bazel " .. command .. " " .. args .. " " .. target,
+		bazel_cmd .. " " .. command .. " " .. args .. " " .. target,
 		get_options(command, workspace, opts, bazel_info)
 	)
 	vim.fn.feedkeys("G")
@@ -201,8 +202,9 @@ end
 function M.execute(command, args, opts)
 	local workspace = opts.workspace or M.get_workspace()
 	create_window()
+	local bazel_cmd = vim.g.bazel_cmd or "bazel"
 	vim.fn.termopen(
-		"bazel " .. command .. " " .. args,
+		bazel_cmd .. " " .. command .. " " .. args,
 		get_options(command, workspace, opts, get_bazel_info(workspace, {}))
 	)
 	vim.fn.feedkeys("G")
