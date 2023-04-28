@@ -2,6 +2,7 @@ import bazel
 import vim
 import os.path
 import subprocess
+from workspace import find_build_file
 
 
 def jump_to_location(filename, line):
@@ -38,3 +39,7 @@ def get_target_label():
     return bazel.get_target_label(
         vim.current.buffer.name, "\n".join(vim.current.buffer), row, col
     )
+
+
+def get_build_file():
+    return find_build_file(vim.current.buffer.name)

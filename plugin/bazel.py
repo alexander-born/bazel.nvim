@@ -2,7 +2,7 @@ from copy import copy
 import ast
 import os
 from label import parse_label, resolve_label, resolve_label_str, resolve_filename
-from workspace import find_workspace_root
+from workspace import find_workspace_root, find_build_name
 
 
 def parse_module_text(s):
@@ -145,7 +145,7 @@ def find_definition(label_str, fname, workspace_root=None):
     # print(f"label: {label}")
 
     build_label = copy(label)
-    build_label.target = "BUILD"
+    build_label.target = find_build_name(fname)
     build_fname = resolve_label(build_label, workspace_root)
     # print(f"build_fname: {build_fname}")
 

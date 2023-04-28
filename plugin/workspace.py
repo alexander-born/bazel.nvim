@@ -2,27 +2,36 @@ import os.path
 import subprocess
 
 
-def _find_parent_directory_containing_file(fname, marker):
+def _find_file(fname, markers):
     # not strictly necessary, but helpful for debugging
     assert os.path.exists(fname)
 
-    fname = os.path.abspath(fname)
+    for marker in markers:
+        path = os.path.abspath(fname)
+        if not os.path.isdir(path):
+            path = os.path.dirname(path)
+        while path != "/":
+            candidate = os.path.join(path, marker)
+            if os.path.exists(candidate):
+                return candidate
+            path = os.path.dirname(path)
+    raise Exception(f"Could not find {markers} file in any parent directory.")
 
-    if not os.path.isdir(fname):
-        fname = os.path.dirname(fname)
-    while fname != "/":
-        if os.path.exists(os.path.join(fname, marker)):
-            return fname
-        fname = os.path.dirname(fname)
-    raise Exception(f"Could not find {marker} file in any parent directory.")
+
+def find_build_file(fname):
+    return _find_file(fname, ["BUILD", "BUILD.bazel"])
 
 
 def find_package_root(fname):
-    return _find_parent_directory_containing_file(fname, "BUILD")
+    return os.path.dirname(find_build_file(fname))
+
+
+def find_build_name(fname):
+    return os.path.basename(find_build_file(fname))
 
 
 def find_workspace_root(fname):
-    return _find_parent_directory_containing_file(fname, "WORKSPACE")
+    return os.path.dirname(_find_file(fname, ["WORKSPACE", "WORKSPACE.bazel"]))
 
 
 def output_base(workspace_root):

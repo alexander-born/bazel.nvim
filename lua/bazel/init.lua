@@ -1,29 +1,42 @@
 local M = {}
 
-local function get_parent_path_with_file(path, file)
+local function find_file(path, file)
 	local initial_path = path or vim.fn.expand(("#%d:p:h"):format(vim.fn.bufnr()))
 	if initial_path == "" then
 		return nil
 	end
 	local workspace = initial_path
 	while 1 do
-		if vim.fn.filereadable(workspace .. "/" .. file) == 1 then
-			break
+		local canditate = workspace .. "/" .. file
+		if vim.fn.filereadable(canditate) == 1 then
+			return canditate
 		end
 		if workspace == "/" then
-			return nil
+			break
 		end
 		workspace = vim.fn.fnamemodify(workspace, ":h")
 	end
-	return workspace
+end
+
+local function find_any_file(path, files)
+	for _, file in ipairs(files) do
+		local result = find_file(path, file)
+		if result then
+			return result
+		end
+	end
+end
+
+local function get_workspace_file(path)
+	return find_any_file(path, { "WORKSPACE", "WORKSPACE.bazel" })
 end
 
 function M.get_workspace(path)
-	return get_parent_path_with_file(path, "WORKSPACE")
+	return vim.fn.fnamemodify(get_workspace_file(path), ":h")
 end
 
 function M.get_workspace_name(path)
-	local workspace_file = M.get_workspace(path) .. "/WORKSPACE"
+	local workspace_file = get_workspace_file(path)
 	local workspace_content = vim.fn.system("cat " .. workspace_file)
 	return workspace_content:match('workspace%(name = "(.-)"%)')
 end
@@ -33,11 +46,11 @@ function M.is_bazel_workspace(path)
 end
 
 local function get_cache_file(path)
-	return get_parent_path_with_file(path, "DO_NOT_BUILD_HERE") .. "/DO_NOT_BUILD_HERE"
+	return find_file(path, "DO_NOT_BUILD_HERE")
 end
 
 function M.is_bazel_cache(path)
-	return get_parent_path_with_file(path, "DO_NOT_BUILD_HERE") ~= nil
+	return find_file(path, "DO_NOT_BUILD_HERE") ~= nil
 end
 
 function M.get_workspace_from_cache(path)

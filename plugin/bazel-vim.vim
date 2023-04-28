@@ -16,8 +16,8 @@ endfunction
 
 function! GoToBazelTarget()
   let current_file = expand("%:t")
+  exe "edit" py3eval("bazel_vim.get_build_file()")
   let pattern = "\\V\\<" . current_file . "\\>"
-  exe "edit" findfile("BUILD", ".;")
   call search(pattern, "w", 0, 500)
 endfunction
 
