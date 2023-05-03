@@ -42,6 +42,7 @@ def collect_imported_symbols(fname, workspace_root=None):
         path = resolve_label_str(
             extension_label, resolve_filename(fname, workspace_root), workspace_root
         )
+        yield (path, 1, extension_label, extension_label)
         targets = list(collect_targets(parse_file_by_name(path)))
 
         for symbol in stmt.value.args[1:]:
@@ -187,7 +188,10 @@ def find_definition_at(fname, text, row, col, workspace_root=None):
     module = parse_module_text(text)
     node = find_node(module, row, col)
     if isinstance(node, ast.Str):
-        return find_definition(node.s, fname, workspace_root)
+        result = find_definition(node.s, fname, workspace_root) 
+        if not result:
+            return find_symbol(node.s, fname, workspace_root)
+        return result
     elif isinstance(node, ast.Name):
         return find_symbol(node.id, fname, workspace_root)
     else:
