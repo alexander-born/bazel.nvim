@@ -42,7 +42,7 @@ function M.get_workspace_name(path)
 end
 
 function M.is_bazel_workspace(path)
-	return M.get_workspace(path) ~= nil
+	return get_workspace_file(path) ~= nil
 end
 
 local function get_cache_file(path)
