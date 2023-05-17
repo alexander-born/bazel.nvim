@@ -1,6 +1,6 @@
 from copy import copy
 import os.path
-from workspace import get_external_directory, find_package_root
+from workspace import get_external_directory, find_package_root, find_build_name
 
 # TODO: bazel defines that labels starting with "@//" always refer to the main repository, even when encountered in a rule used from another repository
 # TODO: I'm confused about how '//...' is resolved in other repositories than main:
@@ -170,12 +170,14 @@ def resolve_label(label, workspace_root):
     Assumes that label.target is a file name.
     """
 
-    root = (
-        workspace_root
-        if not label.repository
-        else os.path.join(get_external_directory(workspace_root), label.repository)
-    )
-    return os.path.join(root, label.package, label.target)
+    root = workspace_root
+    target = label.target
+    if label.repository:
+        root = os.path.join(get_external_directory(workspace_root), label.repository)
+        if target.startswith("BUILD"):
+            target = find_build_name(os.path.join(root, label.package))
+
+    return os.path.join(root, label.package, target)
 
 
 def resolve_label_str(label_str, location, workspace_root):

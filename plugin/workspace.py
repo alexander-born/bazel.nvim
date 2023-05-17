@@ -6,15 +6,15 @@ def _find_file(fname, markers):
     # not strictly necessary, but helpful for debugging
     assert os.path.exists(fname)
 
-    for marker in markers:
-        path = os.path.abspath(fname)
-        if not os.path.isdir(path):
-            path = os.path.dirname(path)
-        while path != "/":
+    path = os.path.abspath(fname)
+    if not os.path.isdir(path):
+        path = os.path.dirname(path)
+    while path != "/":
+        for marker in markers:
             candidate = os.path.join(path, marker)
             if os.path.exists(candidate):
                 return candidate
-            path = os.path.dirname(path)
+        path = os.path.dirname(path)
     raise Exception(f"Could not find {markers} file in any parent directory.")
 
 
