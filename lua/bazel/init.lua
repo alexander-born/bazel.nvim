@@ -222,13 +222,13 @@ end
 
 -- opts: on_success function(bazel_info) -- bazel_info has the following fields: workspace, workspace_name, stdout
 function M.query(args, opts)
-	args = args .. " --color no --curses no --noshow_progress"
+	args = args .. " --color no --curses no --noshow_progress --ui_event_filters=stdout"
 	M.execute("query", args, opts)
 end
 
 -- opts: on_success function(bazel_info) -- bazel_info has the following fields: workspace, workspace_name, stdout
 function M.cquery(args, opts)
-	args = args .. " --color no --curses no --noshow_progress"
+	args = args .. " --color no --curses no --noshow_progress --ui_event_filters=stdout"
 	M.execute("cquery", args, opts)
 end
 return M
