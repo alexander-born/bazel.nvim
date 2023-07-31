@@ -19,7 +19,7 @@ end
 
 function M.get_text_of_capture(bufnr, query, root)
 	local node = queries.get_capture_matches(bufnr, query, "bazel", root)[1].node
-	return vim.treesitter.query.get_node_text(node, 0)
+	return vim.treesitter.get_node_text(node, 0)
 end
 
 return M
