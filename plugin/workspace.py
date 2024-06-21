@@ -1,5 +1,6 @@
 import os.path
 import subprocess
+import vim
 
 
 def _find_file(fname, markers):
@@ -35,20 +36,11 @@ def find_workspace_root(fname):
 
 
 def output_base(workspace_root):
+    bazel_cmd = vim.eval("g:bazel_cmd") or "bazel"
     with open(os.devnull, "w") as devnull:
         result = subprocess.check_output(
-            ["bazel", "info", "output_base"], cwd=workspace_root, stderr=devnull
+            [bazel_cmd, "info", "output_base"], cwd=workspace_root, stderr=devnull
         )[:-1].decode("utf-8")
-    if (
-        result
-        == "/home/racko/.cache/bazel/_bazel_racko/155a8ac14ffc286331e22db9c5281203"
-    ):
-        result = "/home/racko/.cache/bazel/_bazel_root/0b502cf25d074c0253821d023c1a4596"
-    if (
-        result
-        == "/home/racko/.cache/bazel/_bazel_racko/0b502cf25d074c0253821d023c1a4596"
-    ):
-        result = "/home/racko/.cache/bazel/_bazel_root/0b502cf25d074c0253821d023c1a4596"
     return result
 
 
