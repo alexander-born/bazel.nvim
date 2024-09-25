@@ -10,7 +10,7 @@
 ### Installation
 Use your favorite package manager. Example lazy.nvim:
 ```lua
- return {'alexander-born/bazel.nvim', dependencies = {'nvim-treesitter/nvim-treesitter'} },
+ return {'alexander-born/bazel.nvim', dependencies = {'nvim-treesitter/nvim-treesitter', 'nvim-lua/plenary.nvim'} },
 ```
 
 ### Configuration
