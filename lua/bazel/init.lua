@@ -1,3 +1,5 @@
+local Path = require("plenary.path")
+
 local M = {}
 
 local function find_file(path, file)
@@ -69,7 +71,7 @@ local function call_with_bazel_targets(callback)
 		print("Not in a bazel workspace.")
 		return
 	end
-	local fname_rel = fname:match(workspace .. "/(.*)")
+	local fname_rel = Path:new(fname):make_relative(workspace)
 	local function query_targets(bazel_info)
 		local file_label = bazel_info.stdout[1]
 		local file_package = file_label:match("(.*):")
