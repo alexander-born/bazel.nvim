@@ -4,11 +4,12 @@ local M = {}
 
 local function get_gtest_info()
 	local bufnr = vim.fn.bufnr()
-	local gtest_node = test_parser.get_treesitter_query(bufnr, "@test.definition")
+	local query = vim.treesitter.query.get("cpp", "bazel")
+	local gtest_node = test_parser.get_treesitter_query(bufnr, query, "test.definition")
 	return {
-		type = test_parser.get_text_of_capture(bufnr, "@test.type", gtest_node),
-		suite = test_parser.get_text_of_capture(bufnr, "@test.suite", gtest_node),
-		name = test_parser.get_text_of_capture(bufnr, "@test.name", gtest_node),
+		type = test_parser.get_text_of_capture(bufnr, query, "test.type", gtest_node),
+		suite = test_parser.get_text_of_capture(bufnr, query, "test.suite", gtest_node),
+		name = test_parser.get_text_of_capture(bufnr, query, "test.name", gtest_node),
 	}
 end
 
