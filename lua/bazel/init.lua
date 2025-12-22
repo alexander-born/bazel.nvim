@@ -13,7 +13,7 @@ local function find_file(path, file)
 		if vim.fn.filereadable(canditate) == 1 then
 			return canditate
 		end
-		if workspace == "/" then
+		if workspace == "/" or workspace == "." then
 			break
 		end
 		workspace = vim.fn.fnamemodify(workspace, ":h")
