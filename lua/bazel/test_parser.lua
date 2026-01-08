@@ -7,7 +7,7 @@ function M.get_treesitter_query(bufnr, query, capture, opts)
 	local tree = vim.treesitter.get_parser(bufnr):parse()[1]
 	for id, node, metadata in query:iter_captures(tree:root(), bufnr) do
 		if query.captures[id] == capture then
-			if node:child_with_descendant(node_at_cursor) == nil or node == node_at_cursor then
+			if node:child_with_descendant(node_at_cursor) ~= nil or node == node_at_cursor then
 				return node
 			end
 		end
